@@ -100,6 +100,24 @@ Navigate to `http://localhost:8000` to try the web interface, it's faster than t
 
 You can check out the [serve documentation](https://kyutai-labs.github.io/pocket-tts/CLI%20Commands/serve/) for more details and examples.
 
+### Docker web UI
+
+To run Pocket TTS in Docker and open the local web interface:
+
+```bash
+./scripts/docker-webui.sh
+```
+
+This builds the image, starts `pocket-tts serve` on `http://localhost:8000`, and opens that URL on macOS. The Docker image installs the `audio` extra by default, so uploaded voice-cloning samples such as MP3 and FLAC are supported through `soundfile`.
+The runtime image is self-contained and does not require bind-mounted local source or asset directories; the compose file only uses named Docker volumes for reusable model caches.
+For authenticated Hugging Face downloads, create a local `.env` file containing `HF_TOKEN=...`; Docker Compose passes it into the container at runtime, and `.env` is ignored by git and Docker build context.
+
+You can also start it without opening a browser:
+
+```bash
+docker compose up --build
+```
+
 ### The `export-voice` command
 
 Processing an audio file (e.g., a .wav or .mp3) for voice cloning is relatively slow, but loading a safetensors file -- a voice embedding converted from an audio file -- is very fast. You can use the `export-voice` command to do this conversion. See the [export-voice documentation](https://kyutai-labs.github.io/pocket-tts/CLI%20Commands/export_voice/) for more details and examples.
